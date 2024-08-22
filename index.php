@@ -15,10 +15,32 @@ function redirect($url, $permanent = false)
 }
 
 
+function request($campos)
+{
+	if(is_array($campos))
+	{
+		$retorno = [];
+		foreach ($campos as $campo)
+		{
+			$retorno[$campo] = (isset($_REQUEST[$campo])? $_REQUEST[$campo] :null);
+		}
+		return $retorno;
+	}
+	else
+	{
+		return (isset($_REQUEST[$campos]) ? $_REQUEST[$campos] :null);
+	}
+
+}
+
+function url()
+{
+	return root($_SERVER['REQUEST_URI']);
+}
+
 function path()
 {
-	$path = $_SERVER['REQUEST_URI'];
-	$path = explode("?", $path)[0];
+	$path = explode("?", $_SERVER['REQUEST_URI'])[0];
 
 	$path = str_replace ( '#'.root() , '' , '#'.$path);
 
@@ -36,13 +58,47 @@ function path()
 
 function root($path='')
 {
+	$path = preg_replace ('/^\//' , '',  $path);
+
 	if($_SERVER['HTTP_HOST']!='localhost')
 		return "/$path";
 	
-	return $GLOBALS['ROOT']."/$path";
+	return "/$path";
 }
 
 
+function validaLogin($path='')
+{
+	if($_SESSION['user'] && $_SESSION['token'])
+	{
+		return true;
+	}
+	redirect(root('login'));
+}
+
+function validaToken()
+{
+	if($_SESSION['token'] == Usuario::find($_SESSION['user'])->token)
+	{
+		return true;		}
+	else
+	{
+		session_destroy();
+		redirect(root('login'));
+	}
+}
+
+function validaAcesso($codigo = 0)
+{
+	if(Usuario::find($_SESSION['user'])->acesso <= $codigo)
+	{
+		return true;
+	}
+	else
+	{
+		redirect(root('clientes'));
+	}
+}
 
 
 function email($to, $subject, $message, $from)
@@ -79,14 +135,12 @@ session_start();
 
 date_default_timezone_set('America/Sao_Paulo');
 
-$GLOBALS['APP_NAME'] = 'Cantina Virtual';
+$GLOBALS['APP_NAME'] = 'Sistema Emilio Neto';
 $GLOBALS['PATH_INFO'] = pathinfo($_SERVER['SCRIPT_FILENAME']);
 $GLOBALS['ROOT'] = str_replace ( '/'.$GLOBALS['PATH_INFO']['basename'] , '' , $_SERVER['SCRIPT_NAME']);
 
-
 //Conexão com o banco do 000
 DB::setConnection('localhost', 'root', '', 'sistema');
+
 include_once(path());
-
-
 ?>

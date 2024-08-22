@@ -1,131 +1,144 @@
+CREATE TABLE `categoriac` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descricao` varchar NOT NULL,
+  PRIMARY KEY (`id`)
+)
 
-CREATE TABLE `categoria` (
-  `id` int(11) NOT NULL,
-  `descricao` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+CREATE TABLE `categoriap` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descricao` varchar NOT NULL,
+  PRIMARY KEY (`id`)
+)
 
 CREATE TABLE `cliente` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `cpf` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `senha` varchar(256) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar NOT NULL,
+  `cpf` varchar,
+  `rg` varchar,
+  `nacionalidade` varchar,
+  `profissao` varchar,
+  `escolaridade` varchar,
+  `estado_civil` varchar,
+  `data_nasc` varchar,
+  `email` varchar,
+  `celular` varchar,
+  `telefone` varchar,
+  `cep` varchar,
+  `endereço` varchar,
+  `bairro` varchar,
+  `cidade` varchar,
+  `estado` varchar,
+  `pai` varchar,
+  `mae` varchar,
+  `religiao` varchar,
+  `observacao` text,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `processo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `numero` varchar,
+  `chave` varchar,
+  `area` varchar,
+  `objeto` varchar,
+  `assunto` varchar,
+  `pedido` varchar,
+  `status` varchar,
+  `comarca` varchar,
+  `tramita` varchar,
+  `fase` varchar,
+  `detalhes` varchar,
+  `campo1` varchar,
+  `campo2` varchar,
+  `campo3` varchar,
+  `campo4` varchar,
+  `observacao` text,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `registro` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `codigo` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  `cliente_id` int,
+  `processo_id` int,
+  `descricao` text,
+  `data` datetime NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`usuario_id`) REFERENCES usuario(`id`),
+  FOREIGN KEY (`cliente_id`) REFERENCES cliente(`id`),
+  FOREIGN KEY (`processo_id`) REFERENCES processo(`id`)
+)
+
+CREATE TABLE `tarefa` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descricao` text,
+  `usuario_id` int NOT NULL,
+  `registro_id` int NOT NULL,
+  `concluida_em` datetime,
+  `data` datetime NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`registro_id`) REFERENCES registro(`id`)
+)
+
+CREATE TABLE `usuario` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar NOT NULL,
+  `email` varchar NOT NULL,
+  `senha` varchar NOT NULL,
+  `acesso` int NOT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `token` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `token` varchar NOT NULL UNIQUE,
+  `usuario_id` int NOT NULL,
+  `data` datetime NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`usuario_id`) REFERENCES usuario(`id`)
+)
 
 
-CREATE TABLE `compra` (
-  `id` int(11) NOT NULL,
-  `pagamento_id` int(11) NOT NULL,
-  `cliente_id` int(11) NOT NULL,
-  `horario` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `cliente_cliente` (
+  `cliente1_id` int NOT NULL,
+  `cliente2_id` int NOT NULL,
+  `relacao` varchar NOT NULL,
+  PRIMARY KEY (`cliente1_id`,`cliente2_id`),
+  FOREIGN KEY (`cliente1_id`) REFERENCES cliente(`id`),
+  FOREIGN KEY (`cliente2_id`) REFERENCES cliente(`id`)
+)
+
+CREATE TABLE `cliente_processo` (
+  `cliente_id` int NOT NULL,
+  `processo_id` int NOT NULL,
+  PRIMARY KEY (`cliente_id`,`processo_id`),
+  FOREIGN KEY (`cliente_id`) REFERENCES cliente(`id`),
+  FOREIGN KEY (`processo_id`) REFERENCES processo(`id`)
+)
+
+CREATE TABLE `categoriap_processo` (
+  `categoriap_id` int NOT NULL,
+  `processo_id` int NOT NULL,
+  PRIMARY KEY (`categoriap_id`,`processo_id`),
+  FOREIGN KEY (`categoriap_id`) REFERENCES categoriap(`id`),
+  FOREIGN KEY (`processo_id`) REFERENCES processo(`id`)
+)
+
+CREATE TABLE `categoriac_processo` (
+  `categoriac_id` int NOT NULL,
+  `processo_id` int NOT NULL,
+  PRIMARY KEY (`categoriac_id`,`processo_id`),
+  FOREIGN KEY (`categoriac_id`) REFERENCES categoriac(`id`),
+  FOREIGN KEY (`processo_id`) REFERENCES processo(`id`)
+)
+
+INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `acesso`)
+VALUES (1, "Escritorio", "escritorio@emilioneto.com", "$2y$10$FgT9dE1XvXufjXsWt24rIuLPNWYXKSMSbxQ8xxghkLKSjyTeO30nC", 99);
 
 
-CREATE TABLE `forma_pagamento` (
-  `id` int(11) NOT NULL,
-  `descricao` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE `produto` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `descricao` varchar(300) NOT NULL,
-  `preco` double NOT NULL,
-  `imagem` varchar(100) NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE `produto_compra` (
-  `compra_id` int(11) NOT NULL,
-  `produto_id` int(11) NOT NULL,
-  `quantidade` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `produto_categoria` (
-  `produto_id` int(11) NOT NULL,
-  `categoria_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-ALTER TABLE `categoria`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `compra`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cliente_id` (`cliente_id`),
-  ADD KEY `pagamento_id` (`pagamento_id`);
-
-ALTER TABLE `forma_pagamento`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `produto`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `produto_compra`
-  ADD PRIMARY KEY (`compra_id`,`produto_id`);
-
-ALTER TABLE `produto_categoria`
-  ADD PRIMARY KEY (`categoria_id`,`produto_id`);
-
-ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `cliente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `compra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `forma_pagamento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `produto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `compra`
-  ADD CONSTRAINT `compra_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
-  ADD CONSTRAINT `compra_ibfk_2` FOREIGN KEY (`pagamento_id`) REFERENCES `forma_pagamento` (`id`);
-
-ALTER TABLE `produto_compra`
-  ADD CONSTRAINT `produto_compra_ibfk_1` FOREIGN KEY (`compra_id`) REFERENCES `compra` (`id`),
-  ADD CONSTRAINT `produto_compra_ibfk_2` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`);
-
-ALTER TABLE `produto_categoria`
-  ADD CONSTRAINT `produto_categoria_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id`),
-  ADD CONSTRAINT `produto_categoria_ibfk_2` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`);
-
-
-INSERT INTO `categoria`(`id`, `descricao`) VALUES (1,"Destaque");
-INSERT INTO `categoria`(`id`, `descricao`) VALUES (2,"Comidas");
-INSERT INTO `categoria`(`id`, `descricao`) VALUES (3,"Bebidas");
-INSERT INTO `categoria`(`id`, `descricao`) VALUES (4,"Salgado");
-INSERT INTO `categoria`(`id`, `descricao`) VALUES (5,"Doce");
-INSERT INTO `categoria`(`id`, `descricao`) VALUES (6,"Refrigerante");
-INSERT INTO `categoria`(`id`, `descricao`) VALUES (7,"Suco");
-
-
-INSERT INTO `produto`(`id`, `nome`, `descricao`, `preco`, `imagem`) VALUES (1,"Salgadinho Doritos","Pacote de Salgadinho Doritos (Queijo Nacho). Peso: 200g. Contém glúten.",5,"prod1.png");
-INSERT INTO `produto`(`id`, `nome`, `descricao`, `preco`, `imagem`) VALUES (2,"Bolacha Negresco","Pacote de Bolacha Recheada Negresco. Peso: 90g. Contém glúten.",3,"prod2.png");
-INSERT INTO `produto`(`id`, `nome`, `descricao`, `preco`, `imagem`) VALUES (3,"Fruki Guaraná","Lata de Refrigerante Fruki Guaraná. Conteúdo: 300ml.",5,"prod3.png");
-INSERT INTO `produto`(`id`, `nome`, `descricao`, `preco`, `imagem`) VALUES (4,"Del Valle Uva","Lata de Suco de Uva Dell Valle. Conteúdo: 200ml.",4,"prod4.png");
-
-
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (1,1);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (3,1);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (1,2);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (1,4);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (2,2);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (2,5);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (3,3);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (3,6);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (4,3);
-INSERT INTO `produto_categoria`(`produto_id`, `categoria_id`) VALUES (4,7);
-
-INSERT INTO `forma_pagamento`(`id`, `descricao`) VALUES (1,'Dinheiro');
-INSERT INTO `forma_pagamento`(`id`, `descricao`) VALUES (2,'Cartão (débito)');
-INSERT INTO `forma_pagamento`(`id`, `descricao`) VALUES (3,'Cartão (crédito)');
-
+CREATE EVENT AutoDeleteToken
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 DAY 
+ON COMPLETION PRESERVE
+DO 
+DELETE LOW_PRIORITY FROM sistema.token WHERE data < DATE_SUB(NOW(), INTERVAL 1 DAY);
