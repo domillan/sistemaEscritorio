@@ -8,7 +8,7 @@ class CategoriaC extends DBClass{
 
 	public function clientes()
     {
-        return $this->manyToMany(Cliente::class, 'categoriaC_cliente', 'cliente_id', 'categoriaC_id');
+        return $this->manyToMany(Cliente::class, 'categoriac_cliente', 'cliente_id', 'categoriac_id');
     }
 }
 

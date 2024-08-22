@@ -1,15 +1,15 @@
 <?php
 
-$categoria = (isset($_REQUEST['categoria'])) ? $_REQUEST['categoria']: 1;
-$busca = $_REQUEST['busca'] ?? '';
+$categoria = request('categoria');
+$busca = request('busca');
 $buscaReplaced = preg_replace ( '/[\s]+/m' , ' % ', $busca);
 if($categoria!=0){
-	$c = Categoria::find($categoria);
-	$produtos = $c->produtos()->where("produto.nome like '%$buscaReplaced%'");
+	$cat = CategoriaC::find($categoria);
+	$clientes = $cat->clientes()->where("cliente.nome like '%$buscaReplaced%'");
 }
 else
 {
-	$produtos = Produto::where("produto.nome like '%$buscaReplaced%'");
+	$clientes = Cliente::where("cliente.nome like '%$buscaReplaced%'");
 }
 include("view/home.php");
 ?>

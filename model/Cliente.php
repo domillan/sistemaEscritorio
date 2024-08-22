@@ -24,7 +24,7 @@ class Cliente extends DBClass{
 	
 	public function categorias()
     {
-		return $this->manyToMany(CategoriaC::class, 'categoriaC_cliente', 'categoriaC_id', 'cliente_id');
+		return $this->manyToMany(CategoriaC::class, 'categoriac_cliente', 'categoriac_id', 'cliente_id');
     }
 
     public function comentarios()

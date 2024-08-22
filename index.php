@@ -135,7 +135,7 @@ session_start();
 
 date_default_timezone_set('America/Sao_Paulo');
 
-$GLOBALS['APP_NAME'] = 'Sistema Emilio Neto';
+$GLOBALS['APP_NAME'] = 'Sistema EN';
 $GLOBALS['PATH_INFO'] = pathinfo($_SERVER['SCRIPT_FILENAME']);
 $GLOBALS['ROOT'] = str_replace ( '/'.$GLOBALS['PATH_INFO']['basename'] , '' , $_SERVER['SCRIPT_NAME']);
 

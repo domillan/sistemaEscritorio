@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Cantina Virtual</title>
+  <title><?=$GLOBALS['APP_NAME'] ?></title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <!-- Bootstrap core CSS -->
@@ -20,6 +20,11 @@
     header,
     .carousel {
       height: 60vh;
+    }
+
+    main
+    {
+      min-height: 120%;
     }
 
     @media (max-width: 740px) {
@@ -61,8 +66,8 @@
           <li class="nav-item">
             <a href = '<?= root('compra/carrinho')?>' class="nav-link border border-light rounded waves-effect">
 			&nbsp;
-              <i class="fas fa-shopping-cart"></i>
-              <span class="clearfix d-none d-sm-inline-block"> Carrinho </span>
+              <i class="fas fa-bars"></i>
+              <span class="clearfix d-none d-sm-inline-block"> Menu </span>
             &nbsp;
 			</a>
           </li>
@@ -111,7 +116,7 @@
               </a>
             </li>
 		  
-			<?php foreach(Categoria::all() as $cat):?>
+			<?php foreach(CategoriaC::all() as $cat):?>
 			
 			<?php if($categoria==$cat->getPrimary()):?>
             <li class="nav-item active">
@@ -144,14 +149,14 @@
         <!--Grid row-->
         <div class="row wow fadeIn">
 
-		  <?php if(!sizeof($produtos)):?><div class="col-md-12 text-center mb-4">
+		  <?php if(!sizeof($clientes)):?><div class="col-md-12 text-center mb-4">
 		  <h5>Sua busca não retornou resultados.</h5>
 		  </div>
 		  
 			<?php endif;?>
 
 
-<?php foreach($produtos as $produto):?>
+<?php foreach($clientes as $produto):?>
 		  <!--Grid column-->
           <div class="col-lg-3 col-md-6 mb-4">
 
@@ -160,9 +165,7 @@
 
               <!--Card image-->
               <div class="view zoom overlay">
-                <img src="<?=root("img/produtos/$produto->imagem")?>" style='height:250px; width:auto;' class="mx-auto card-img-top"
-                  alt="">
-                <a href="<?=root('produto/detalhes?id='.$produto->getPrimary())?>">
+                  <a href="<?=root('produto/detalhes?id='.$produto->getPrimary())?>">
                   <div class="mask rgba-white-slight"></div>
                 </a>
               </div>
@@ -179,7 +182,7 @@
                 </h5>
 
                 <h4 class="font-weight-bold blue-text">
-                  <strong>R$ <?=number_format($produto->preco, 2, ',', '.')?></strong>
+                  <strong><?=$produto->cpf?></strong>
                 </h4>
 				<?php foreach($produto->categorias()->all() as $categoria):?>
 				  <a href="<?=root('?categoria='.$categoria->getPrimary())?>">
@@ -231,10 +234,9 @@
 
     <!--Copyright-->
     <div class="footer-copyright py-3">
-      © 2019 Copyright:
-      <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> MDBootstrap.com </a>
+      Sistema EN - Escritório Emilio Neto
 	  <br>
-	  Daniel Oliveira Millan & Eduarda Dias Martins
+	  <small>Developed by Daniel Millan</small>
     </div>
     <!--/.Copyright-->
 

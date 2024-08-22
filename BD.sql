@@ -1,60 +1,69 @@
 CREATE TABLE `categoriac` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `descricao` varchar NOT NULL,
+  `descricao` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
-)
+);
 
 CREATE TABLE `categoriap` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `descricao` varchar NOT NULL,
+  `descricao` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
-)
+);
 
 CREATE TABLE `cliente` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar NOT NULL,
-  `cpf` varchar,
-  `rg` varchar,
-  `nacionalidade` varchar,
-  `profissao` varchar,
-  `escolaridade` varchar,
-  `estado_civil` varchar,
-  `data_nasc` varchar,
-  `email` varchar,
-  `celular` varchar,
-  `telefone` varchar,
-  `cep` varchar,
-  `endereço` varchar,
-  `bairro` varchar,
-  `cidade` varchar,
-  `estado` varchar,
-  `pai` varchar,
-  `mae` varchar,
-  `religiao` varchar,
+  `nome` varchar(256) NOT NULL,
+  `cpf` varchar(256),
+  `rg` varchar(256),
+  `nacionalidade` varchar(256),
+  `profissao` varchar(256),
+  `escolaridade` varchar(256),
+  `estado_civil` varchar(256),
+  `data_nasc` varchar(256),
+  `email` varchar(256),
+  `celular` varchar(256),
+  `telefone` varchar(256),
+  `cep` varchar(256),
+  `endereço` varchar(256),
+  `bairro` varchar(256),
+  `cidade` varchar(256),
+  `estado` varchar(256),
+  `pai` varchar(256),
+  `mae` varchar(256),
+  `religiao` varchar(256),
   `observacao` text,
   PRIMARY KEY (`id`)
-)
+);
 
 CREATE TABLE `processo` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `numero` varchar,
-  `chave` varchar,
-  `area` varchar,
-  `objeto` varchar,
-  `assunto` varchar,
-  `pedido` varchar,
-  `status` varchar,
-  `comarca` varchar,
-  `tramita` varchar,
-  `fase` varchar,
-  `detalhes` varchar,
-  `campo1` varchar,
-  `campo2` varchar,
-  `campo3` varchar,
-  `campo4` varchar,
+  `numero` varchar(256),
+  `chave` varchar(256),
+  `area` varchar(256),
+  `objeto` varchar(256),
+  `assunto` varchar(256),
+  `pedido` varchar(256),
+  `status` varchar(256),
+  `comarca` varchar(256),
+  `tramita` varchar(256),
+  `fase` varchar(256),
+  `detalhes` varchar(256),
+  `campo1` varchar(256),
+  `campo2` varchar(256),
+  `campo3` varchar(256),
+  `campo4` varchar(256),
   `observacao` text,
   PRIMARY KEY (`id`)
-)
+);
+
+CREATE TABLE `usuario` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(256) NOT NULL,
+  `email` varchar(256) NOT NULL,
+  `senha` varchar(256) NOT NULL,
+  `acesso` int NOT NULL,
+  PRIMARY KEY (`id`)
+);
 
 CREATE TABLE `registro` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -68,7 +77,7 @@ CREATE TABLE `registro` (
   FOREIGN KEY (`usuario_id`) REFERENCES usuario(`id`),
   FOREIGN KEY (`cliente_id`) REFERENCES cliente(`id`),
   FOREIGN KEY (`processo_id`) REFERENCES processo(`id`)
-)
+);
 
 CREATE TABLE `tarefa` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -79,35 +88,26 @@ CREATE TABLE `tarefa` (
   `data` datetime NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`registro_id`) REFERENCES registro(`id`)
-)
-
-CREATE TABLE `usuario` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar NOT NULL,
-  `email` varchar NOT NULL,
-  `senha` varchar NOT NULL,
-  `acesso` int NOT NULL,
-  PRIMARY KEY (`id`)
-)
+);
 
 CREATE TABLE `token` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `token` varchar NOT NULL UNIQUE,
+  `token` varchar(256) NOT NULL UNIQUE,
   `usuario_id` int NOT NULL,
   `data` datetime NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`usuario_id`) REFERENCES usuario(`id`)
-)
+);
 
 
 CREATE TABLE `cliente_cliente` (
   `cliente1_id` int NOT NULL,
   `cliente2_id` int NOT NULL,
-  `relacao` varchar NOT NULL,
+  `relacao` varchar(256) NOT NULL,
   PRIMARY KEY (`cliente1_id`,`cliente2_id`),
   FOREIGN KEY (`cliente1_id`) REFERENCES cliente(`id`),
   FOREIGN KEY (`cliente2_id`) REFERENCES cliente(`id`)
-)
+);
 
 CREATE TABLE `cliente_processo` (
   `cliente_id` int NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE `cliente_processo` (
   PRIMARY KEY (`cliente_id`,`processo_id`),
   FOREIGN KEY (`cliente_id`) REFERENCES cliente(`id`),
   FOREIGN KEY (`processo_id`) REFERENCES processo(`id`)
-)
+);
 
 CREATE TABLE `categoriap_processo` (
   `categoriap_id` int NOT NULL,
@@ -123,15 +123,15 @@ CREATE TABLE `categoriap_processo` (
   PRIMARY KEY (`categoriap_id`,`processo_id`),
   FOREIGN KEY (`categoriap_id`) REFERENCES categoriap(`id`),
   FOREIGN KEY (`processo_id`) REFERENCES processo(`id`)
-)
+);
 
-CREATE TABLE `categoriac_processo` (
+CREATE TABLE `categoriac_cliente` (
   `categoriac_id` int NOT NULL,
-  `processo_id` int NOT NULL,
-  PRIMARY KEY (`categoriac_id`,`processo_id`),
+  `cliente_id` int NOT NULL,
+  PRIMARY KEY (`categoriac_id`,`cliente_id`),
   FOREIGN KEY (`categoriac_id`) REFERENCES categoriac(`id`),
-  FOREIGN KEY (`processo_id`) REFERENCES processo(`id`)
-)
+  FOREIGN KEY (`cliente_id`) REFERENCES cliente(`id`)
+);
 
 INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `acesso`)
 VALUES (1, "Escritorio", "escritorio@emilioneto.com", "$2y$10$FgT9dE1XvXufjXsWt24rIuLPNWYXKSMSbxQ8xxghkLKSjyTeO30nC", 99);
