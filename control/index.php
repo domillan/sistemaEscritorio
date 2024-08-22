@@ -1,5 +1,8 @@
 <?php
 
+
+//validaLogin(url());
+
 $categoria = request('categoria');
 $busca = request('busca');
 $buscaReplaced = preg_replace ( '/[\s]+/m' , ' % ', $busca);
