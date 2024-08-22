@@ -61,82 +61,13 @@
         <strong class="blue-text"><?=$GLOBALS['APP_NAME']?></strong>
       </a>
 
-      <div>
-    <div class="btn-group">
-      <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Clientes
-      </button>
-      <div class="dropdown-menu">
-         <a class="nav-link" href="<?=root('clientes/lista')?>">
-        <strong class="text-primary">Buscar</strong>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a class="nav-link" href="<?=root('clientes/novo')?>">
-        <strong class="text-primary">Cadastrar</strong>
-        </a>
-      </div>
-    </div>
-
-    <div class="btn-group">
-      <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Tarefas
-      </button>
-      <div class="dropdown-menu">
-         <a class="nav-link" href="<?=root('tarefas/lista')?>">
-        <strong class="text-primary">Buscar</strong>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a class="nav-link" href="<?=root('tarefas/novo')?>">
-        <strong class="text-primary">Novo</strong>
-        </a>
-      </div>
-    </div>
-
-    <div class="btn-group">
-      <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Processos
-      </button>
-      <div class="dropdown-menu">
-         <a class="nav-link" href="<?=root('processos/lista')?>">
-        <strong class="text-primary">Buscar</strong>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a class="nav-link" href="<?=root('processos/novo')?>">
-        <strong class="text-primary">Novo</strong>
-        </a>
-      </div>
-    </div>
-
-        <div class="btn-group">
-      <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Categorias
-      </button>
-      <div class="dropdown-menu">
-         <a class="nav-link" href="<?=root('clientes/lista')?>">
-        <strong class="text-primary">Clientes</strong>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a class="nav-link" href="<?=root('clientes/novo')?>">
-        <strong class="text-primary">Processos</strong>
-        </a>
-      </div>
-    </div>
-  </div>
-
-
-    <span class="nav-link"></span>
-    <span class="nav-link"></span>
-    <span class="nav-link"></span>
-    <span class="nav-link"></span>
-
-
 
 		<ul class="navbar-nav nav-flex-icons float-right">
           <li class="nav-item">
             <a href = '<?= root('compra/carrinho')?>' class="nav-link border border-light rounded waves-effect">
 			&nbsp;
-              <i class="fas fa-cog"></i>
-              <span class="clearfix d-none d-sm-inline-block"> Ajustes </span>
+              <i class="fas fa-bars"></i>
+              <span class="clearfix d-none d-sm-inline-block"> Menu </span>
             &nbsp;
 			</a>
           </li>
@@ -159,8 +90,12 @@
     <div class="container">
 
       <!--Navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten mt-5">
+      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
 
+        <!-- Navbar brand -->
+        <span class="navbar-brand">Categorias:</span>
+
+        <!-- Collapse button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -171,25 +106,27 @@
 
           <!-- Links -->
 		  
-    <div class="btn-group">
-      <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Categorias
-      </button>
-      <div class="dropdown-menu">
-        <a class="nav-link" href="<?=root('?categoria=0'."&busca=$busca")?>">
-          <strong class="text-primary">Todos</strong>
-        </a>
-        <?php foreach(CategoriaC::all() as $cat):?>
-         <a class="nav-link" href="<?=root('?categoria='.$cat->getPrimary()."&busca=$busca")?>">
-          <strong class="text-primary"><?=$cat->descricao?></strong>
-        </a>
-        <?php endforeach;?>
-      </div>
-    </div>
-
-		    <ul class="navbar-nav mr-auto">
-		        <a class="nav-link active" href="<?=root()?>">Limpar
+		<ul class="navbar-nav mr-auto">
+		<?php if($categoria==0):?>
+            <li class="nav-item active">
+		<?php else:?>
+			<li class="nav-item">
+		<?php endif;?>
+              <a class="nav-link" href="<?=root("?categoria=0&busca=$busca")?>">Todos
               </a>
+            </li>
+		  
+			<?php foreach(CategoriaC::all() as $cat):?>
+			
+			<?php if($categoria==$cat->getPrimary()):?>
+            <li class="nav-item active">
+			<?php else:?>
+			<li class="nav-item">
+			<?php endif;?>
+              <a class="nav-link" href="<?=root('?categoria='.$cat->getPrimary()."&busca=$busca")?>"><?=$cat->descricao?></a>
+            </li>
+			<?php endforeach;?>
+
           </ul>
           <!-- Links -->
 			<a class='text-white' href='<?=root('?categoria='.$categoria."&busca=")?>'>X</a>
@@ -204,14 +141,6 @@
         <!-- Collapsible content -->
 
       </nav>
-      <div class="row">
-        <a class="nav-link strong" href="<?=root('?categoria=0'."&busca=$busca")?>">
-          <strong class="text-primary">Todos</strong>
-        </a>
-        <?php foreach(range('a', 'z') as $letra):?>
-         <a class="nav-link strong" href="<?=root('?inicial='.$letra."&busca=$busca")?>"><?=$letra?></a>
-        <?php endforeach;?>
-        </div><br>
       <!--/.Navbar-->
 
       <!--Section: Products v.3-->
