@@ -3,7 +3,7 @@
     <div class="container">
 
       <!--Navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten mt-5">
+        <div class="navbar navbar-expand-lg navbar-dark mdb-color lighten mt-5">
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@
         </div>
         <!-- Collapsible content -->
 
-      </nav>
+      </div>
       <!--/.Navbar-->
 <br>
       <!--Section: Products v.3-->

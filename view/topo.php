@@ -14,6 +14,15 @@
   <link href="<?=root('css/mdb.min.css')?>" rel="stylesheet">
   <!-- Your custom styles (optional) -->
   <link href="<?=root('css/style.min.css')?>" rel="stylesheet">
+    <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="<?=root('js/jquery-3.4.1.min.js')?>"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="<?=root('js/popper.min.js')?>"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="<?=root('js/bootstrap.min.js')?>"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="<?=root('js/mdb.min.js')?>"></script>
   <style type="text/css">
     html,
     body,
@@ -48,6 +57,20 @@
     }
 
   </style>
+  <script>
+ $(document).ready(function() {
+            $('nav .btn-group').hover(
+                function() {
+                    // Mouse enter
+                    $(this).find('.dropdown-menu').addClass('show');
+                },
+                function() {
+                    // Mouse leave
+                    $(this).find('.dropdown-menu').removeClass('show');
+                }
+            );
+        });
+  </script>
 </head>
 
 <body>
@@ -62,10 +85,17 @@
       </a>
 
       <div>
+
     <div class="btn-group">
-      <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a href="<?=root('tarefas/lista')?>" class="btn btn-info btn-sm " type="button" >
+        Tarefas
+      </a>
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-info btn-sm dropdown-toggle" href="<?=root('clientes/lista')?>" aria-expanded="false">
         Clientes
-      </button>
+      </a>
       <div class="dropdown-menu">
          <a class="nav-link" href="<?=root('clientes/lista')?>">
         <strong class="text-primary">Buscar</strong>
@@ -78,24 +108,9 @@
     </div>
 
     <div class="btn-group">
-      <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Tarefas
-      </button>
-      <div class="dropdown-menu">
-         <a class="nav-link" href="<?=root('tarefas/lista')?>">
-        <strong class="text-primary">Buscar</strong>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a class="nav-link" href="<?=root('tarefas/novo')?>">
-        <strong class="text-primary">Novo</strong>
-        </a>
-      </div>
-    </div>
-
-    <div class="btn-group">
-      <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="btn btn-info btn-sm dropdown-toggle" href="<?=root('processos/lista')?>" aria-expanded="false">
         Processos
-      </button>
+      </a>
       <div class="dropdown-menu">
          <a class="nav-link" href="<?=root('processos/lista')?>">
         <strong class="text-primary">Buscar</strong>

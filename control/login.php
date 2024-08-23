@@ -1,5 +1,18 @@
 <?php
 
+function logado()
+{
+	if(isset($_SESSION['aguardaLogin']))
+	{
+		$path = $_SESSION['aguardaLogin'];
+		unset($_SESSION['aguardaLogin']);
+		redirect($path);
+	}
+	else{
+		redirect(root());
+	}
+}
+
 if(!isset($_SESSION['user'])){
 	$mensagem = null;	
 	if (isset($_POST['logar'])){
@@ -18,7 +31,7 @@ if(!isset($_SESSION['user'])){
 					$_SESSION['user'] = $user;
 					$_SESSION['token'] = $t->token;
 
-					redirect(root());				
+					logado();				
 				}
 				else {
 					$mensagem = "Senha incorreta.";
@@ -29,5 +42,5 @@ if(!isset($_SESSION['user'])){
 	include("view/login.php");
 }
 else
-	redirect(root());
+	logado();
 ?>

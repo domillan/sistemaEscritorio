@@ -3,7 +3,7 @@
     <div class="container">
 
       <!--Navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten mt-5">
+        <div class="navbar navbar-expand-lg navbar-dark mdb-color lighten mt-5">
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,8 +46,9 @@
           </form>
         </div>
         <!-- Collapsible content -->
+      </div>
 
-      </nav>
+
       <div class="row">
         <a class="nav-link strong" href="<?=root('?categoria=0'."&busca=$busca")?>">
           <strong class="text-primary">Todos</strong>

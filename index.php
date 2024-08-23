@@ -69,10 +69,11 @@ function root($path='')
 
 function validaLogin($path='')
 {
-	if($_SESSION['user'] && $_SESSION['token'])
+	if($_SESSION['user'] && $_SESSION['token'] && Usuario::find(($_SESSION['user'])->id))
 	{
 		return true;
-	}
+	}	
+	$_SESSION['aguardaLogin'] = $path;
 	redirect(root('login'));
 }
 
