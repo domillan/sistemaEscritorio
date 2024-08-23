@@ -20,11 +20,11 @@
         Categorias
       </button>
       <div class="dropdown-menu">
-        <a class="nav-link" href="<?=root('clientes/lista?categoria=0'."&busca=$busca")?>">
+        <a class="nav-link" href="<?=root('processos/lista?categoria=0'."&busca=$busca")?>">
           <strong class="text-primary">Todos</strong>
         </a>
-        <?php foreach(CategoriaC::all() as $cat):?>
-         <a class="nav-link" href="<?=root('clientes/lista?categoria='.$cat->getPrimary()."&busca=$busca")?>">
+        <?php foreach(CategoriaP::all() as $cat):?>
+         <a class="nav-link" href="<?=root('processos/lista?categoria='.$cat->getPrimary()."&busca=$busca")?>">
           <strong class="text-primary"><?=$cat->descricao?></strong>
         </a>
         <?php endforeach;?>
@@ -32,11 +32,11 @@
     </div>
 
 		    <ul class="navbar-nav mr-auto">
-		        <a class="nav-link active" href="<?=root('clientes/lista')?>">Limpar
+		        <a class="nav-link active" href="<?=root('processos/lista')?>">Limpar
               </a>
           </ul>
           <!-- Links -->
-			<a class='text-white' href='<?=root('clientes/lista?categoria='.$categoria."&busca=")?>'>X</a>
+			<a class='text-white' href='<?=root('processos/lista?categoria='.$categoria."&busca=")?>'>X</a>
           <form class="form-inline">
             <div class="md-form my-0">
 			<input name='categoria' value='<?=$categoria?>' type="hidden">
@@ -48,30 +48,22 @@
         <!-- Collapsible content -->
 
       </nav>
-      <div class="row">
-        <a class="nav-link strong" href="<?=root('?categoria=0'."&busca=$busca")?>">
-          <strong class="text-primary">Todos</strong>
-        </a>
-        <?php foreach(range('a', 'z') as $letra):?>
-         <a class="nav-link strong" href="<?=root('?inicial='.$letra."&busca=$busca")?>"><?=$letra?></a>
-        <?php endforeach;?>
-        </div><br>
       <!--/.Navbar-->
-
+<br>
       <!--Section: Products v.3-->
       <section class="text-center mb-4">
 
         <!--Grid row-->
         <div class="row wow fadeIn">
 
-		  <?php if(!sizeof($clientes)):?><div class="col-md-12 text-center mb-4">
+		  <?php if(!sizeof($processos)):?><div class="col-md-12 text-center mb-4">
 		  <h5>Sua busca não retornou resultados.</h5>
 		  </div>
 		  
 			<?php endif;?>
 
 
-<?php foreach($clientes as $cliente):?>
+<?php foreach($processos as $processo):?>
 		  <!--Grid column-->
           <div class="col-lg-3 col-md-6 mb-4">
 
@@ -80,7 +72,7 @@
 
               <!--Card image-->
               <div class="view zoom overlay">
-                  <a href="<?=root('clientes/dados?id='.$cliente->getPrimary())?>">
+                  <a href="<?=root('processos/dados?id='.$processo->getPrimary())?>">
                   <div class="mask rgba-white-slight"></div>
                 </a>
               </div>
@@ -92,15 +84,15 @@
                 			
                 <h5>
                   <strong>
-                    <a href="<?=root('clientes/dados?id='.$cliente->getPrimary())?>" class="dark-grey-text"><?=$cliente->nome?></a>
+                    <a href="<?=root('processos/dados?id='.$processo->getPrimary())?>" class="dark-grey-text"><?=$processo->numero?></a>
                   </strong>
                 </h5>
 
                 <h4 class="font-weight-bold blue-text">
-                  <strong><?=$cliente->cpf?></strong>
+                  <strong><?=$processo->assunto?></strong>
                 </h4>
-				<?php foreach($cliente->categorias()->all() as $categoria):?>
-				  <a href="<?=root('?categoria='.$categoria->getPrimary())?>">
+				<?php foreach($processo->categorias()->all() as $categoria):?>
+				  <a href="<?=root('processos/lista?categoria='.$categoria->getPrimary())?>">
 					<span class="badge badge-pill text-uppercase danger-color"><?=$categoria->descricao?></span>
 				  </a>
 				<?php endforeach;?>

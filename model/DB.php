@@ -20,7 +20,7 @@ class DB
 		if(sizeof($array)==0)
 			return 'false';
 		
-        $lista = implode($array, ',');
+        $lista = implode(',', $array);
         return "$field in ($lista)";
     }
     public static function notIn($field, $array)
@@ -28,7 +28,7 @@ class DB
 		if(sizeof($array)==0)
 			return 'true';
 		
-        $lista = implode($array, ',');
+        $lista = implode(',', $array);
         return "$field not in ($lista)";
     }
 

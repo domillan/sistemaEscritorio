@@ -24,7 +24,7 @@ CREATE TABLE `cliente` (
   `celular` varchar(256),
   `telefone` varchar(256),
   `cep` varchar(256),
-  `endereço` varchar(256),
+  `endereco` varchar(256),
   `bairro` varchar(256),
   `cidade` varchar(256),
   `estado` varchar(256),

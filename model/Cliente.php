@@ -4,7 +4,7 @@ class Cliente extends DBClass{
 	
 	public const table = 'cliente';
     public const fields = ['id', 'nome', 'cpf', 'rg', 'nacionalidade', 'profissao','escolaridade','estado_civil','data_nasc',
-    						'email', 'celular','telefone','cep','endereço','bairro','cidade','estado','pai','mae','religiao','observacao'];
+    						'email', 'celular','telefone','cep','endereco','bairro','cidade','estado','pai','mae','religiao','observacao'];
     public const primary = 'id';
 	
 	public function registros()
@@ -27,14 +27,9 @@ class Cliente extends DBClass{
 		return $this->manyToMany(CategoriaC::class, 'categoriac_cliente', 'categoriac_id', 'cliente_id');
     }
 
-    public function comentarios()
-    {
-        return $this->registros()->where('codigo = 12');
-    }
-
     public function andamentos()
     {
-        return $this->registros()->where('codigo = 13');
+        return $this->registros()->where('codigo = 12 or codigo = 13');
     }
 	
 	public function registrosTarefas()

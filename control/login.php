@@ -6,16 +6,19 @@ if(!isset($_SESSION['user'])){
 		$senha = $_REQUEST['senha'];
 		$email = $_REQUEST['email'];
 		if(filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)){
-			$cliente = Cliente::first("email='$email'");
-			if($cliente == null){
+			$user = Usuario::first("email='$email'");
+			if($user == null){
 				$mensagem = "E-mail não cadastrado.";
 			}
 			else{
-				if(password_verify($senha, $cliente->senha)){
-					$_SESSION['user'] = $cliente;
-					header('Location: '.root());
-					die();
-				
+				if(password_verify($senha, $user->senha)){
+					$t = Token::new(['token'=>hash('md2', uniqid()), 'data'=>date("Y-m-d H:i:s")]);
+					$t->usuario()->set($user);
+					$t->save();
+					$_SESSION['user'] = $user;
+					$_SESSION['token'] = $t->token;
+
+					redirect(root());				
 				}
 				else {
 					$mensagem = "Senha incorreta.";
@@ -23,10 +26,8 @@ if(!isset($_SESSION['user'])){
 			}		
 		}
 	}
-	include("view/cliente-login.php");
+	include("view/login.php");
 }
-else {
-	header('Location:'.root('cliente/menu'));
-	die();
-}		
+else
+	redirect(root());
 ?>

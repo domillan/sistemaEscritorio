@@ -78,9 +78,10 @@ function validaLogin($path='')
 
 function validaToken()
 {
-	if($_SESSION['token'] == Usuario::find($_SESSION['user'])->token)
+	if(Token::where('token.token = "'.$_SESSION['token'].'" and token.usuario_id = '. ($_SESSION['user'])->id))
 	{
-		return true;		}
+		return true;
+	}
 	else
 	{
 		session_destroy();
@@ -96,7 +97,8 @@ function validaAcesso($codigo = 0)
 	}
 	else
 	{
-		redirect(root('clientes'));
+		include_once('view/negado.php');
+		die();
 	}
 }
 
