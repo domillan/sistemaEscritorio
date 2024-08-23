@@ -8,7 +8,7 @@ $busca = request('busca');
 $inicial = request('inicial');
 
 $buscaReplaced = preg_replace ( '/[\s]+/m' , ' % ', $busca);
-if($categoria!=0){
+if($categoria){
 	$cat = CategoriaC::find($categoria);
 	$clientes = $cat->clientes()->where("cliente.nome like '%$buscaReplaced%' and cliente.nome like '$inicial%'");
 }

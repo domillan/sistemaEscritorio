@@ -133,7 +133,7 @@
 
 		<ul class="navbar-nav nav-flex-icons float-right">
           <li class="nav-item">
-            <a href = '<?= root('compra/carrinho')?>' class="nav-link border border-light rounded waves-effect">
+            <a href = '<?= root('404')?>' class="nav-link border border-light rounded waves-effect">
 			&nbsp;
               <i class="fas fa-cog"></i>
               <span class="clearfix d-none d-sm-inline-block"> Ajustes </span>
@@ -141,7 +141,7 @@
 			</a>
           </li>
           <li class="nav-item">
-            <a href='<?= root('cliente/menu')?>' class="nav-link border border-light rounded waves-effect"> 
+            <a href='<?= root('logout')?>' class="nav-link border border-light rounded waves-effect">
             &nbsp;
 			  <i class="fas fa-user"></i>
 			  <span class="clearfix d-none d-sm-inline-block"> Conta </span> 

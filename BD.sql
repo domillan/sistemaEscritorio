@@ -93,7 +93,7 @@ CREATE TABLE `tarefa` (
 CREATE TABLE `token` (
   `id` int NOT NULL AUTO_INCREMENT,
   `token` varchar(256) NOT NULL UNIQUE,
-  `usuario_id` int NOT NULL,
+  `usuario_id` int NULL,
   `data` datetime NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`usuario_id`) REFERENCES usuario(`id`)
