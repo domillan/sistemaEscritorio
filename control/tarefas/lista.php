@@ -3,7 +3,7 @@
 validaLogin(url());
 validaToken();
 
-DB::debugOn();
+//DB::debugOn();
 
 if(request('data'))
 	$data = request('data');

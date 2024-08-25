@@ -15,7 +15,7 @@ class Processo extends DBClass{
 
 	public function registros()
     {
-        return $this->oneToMany(Registro::class, 'cliente_id');
+        return $this->oneToMany(Registro::class, 'processo_id');
     }
 
     public function categorias()
@@ -33,10 +33,20 @@ class Processo extends DBClass{
         return $this->registros()->where('codigo = 23');
     }
 
-    public function registrosTarefas()
+    public function registrosTarefa()
     {
         return $this->registros()->where('codigo = 24');
     }
+
+    public function nomesClientes()
+    {
+        $array = [];
+        foreach($this->clientes as $cliente)
+            $array[] = $cliente->nome;
+        return implode(', ', $array);
+    }
+
+
 }
 
 ?>

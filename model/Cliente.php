@@ -27,12 +27,17 @@ class Cliente extends DBClass{
 		return $this->manyToMany(CategoriaC::class, 'categoriac_cliente', 'categoriac_id', 'cliente_id');
     }
 
+    public function comentarios()
+    {
+        return $this->registros()->where('codigo = 12');
+    }
+
     public function andamentos()
     {
-        return $this->registros()->where('codigo = 12 or codigo = 13');
+        return $this->registros()->where('codigo = 13');
     }
 	
-	public function registrosTarefas()
+	public function registrosTarefa()
     {
         return $this->registros()->where('codigo = 14');
     }

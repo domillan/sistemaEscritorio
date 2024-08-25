@@ -26,7 +26,15 @@
     <div class="container bg-light p-3">
     <ul class="list-group">
     <?php foreach ($tarefas as $tarefa): ?>
-      <li class="list-group-item"><?=$tarefa->descricao?> <br></li> 
+      <li class="list-group-item">
+        <?php if($tarefa->cliente()): ?>
+            <a href="<?=root('clientes/dados?id='.$tarefa->cliente()->id)?>"> <?=$tarefa->cliente()->nome ?></a>
+        <?php endif; ?>
+        <?php if($tarefa->processo()): ?>
+            <a href="<?=root('processos/dados?id='.$tarefa->processo()->id)?>"> <?=$tarefa->processo()->numero ?> </a>
+        <?php endif; ?><br>
+        <?=$tarefa->descricao?>
+      </li> 
     <?php endforeach; ?>
     </ul>
 </div>

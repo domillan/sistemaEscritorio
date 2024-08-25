@@ -58,17 +58,17 @@ CREATE TABLE `processo` (
 
 CREATE TABLE `usuario` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(256) NOT NULL,
+  `nome` varchar(256),
   `email` varchar(256) NOT NULL,
-  `senha` varchar(256) NOT NULL,
-  `acesso` int NOT NULL,
+  `senha` varchar(256),
+  `acesso` int,
   PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `registro` (
   `id` int NOT NULL AUTO_INCREMENT,
   `codigo` int NOT NULL,
-  `usuario_id` int NOT NULL,
+  `usuario_id` int,
   `cliente_id` int,
   `processo_id` int,
   `descricao` text,
@@ -82,8 +82,8 @@ CREATE TABLE `registro` (
 CREATE TABLE `tarefa` (
   `id` int NOT NULL AUTO_INCREMENT,
   `descricao` text,
-  `usuario_id` int NOT NULL,
-  `registro_id` int NOT NULL,
+  `usuario_id` int,
+  `registro_id` int,
   `concluida_em` datetime,
   `data` datetime NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`),
@@ -93,7 +93,7 @@ CREATE TABLE `tarefa` (
 CREATE TABLE `token` (
   `id` int NOT NULL AUTO_INCREMENT,
   `token` varchar(256) NOT NULL UNIQUE,
-  `usuario_id` int NULL,
+  `usuario_id` int,
   `data` datetime NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`usuario_id`) REFERENCES usuario(`id`)

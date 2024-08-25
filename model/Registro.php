@@ -32,6 +32,11 @@ class Registro extends DBClass{
     {
         return $this->oneToMany(Tarefa::class, 'registro_id');
     }
+
+    public function tarefa()
+    {
+        return $this->tarefas()->first();
+    }
 	
 }
 

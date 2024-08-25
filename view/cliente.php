@@ -122,23 +122,37 @@
 </div>
 <br>
 <div class="container bg-light p-3">
-    <h3> Andamentos </h3>
-    <div class="row mb-3">
-        <div class="col-md-8">
-        <textarea class="form-control" id="comentario" name="comentario" rows="3"></textarea>
-        </div>
-        <div class="col-md-3 text-center">
-            <select class="form-control" id="codigo" name="codigo">
-                <option value="12">Comentário</option>
-                <option value="13">Andamento</option>
-            </select>
-            <button type="submit" class="btn btn-primary">Novo</button>
-        </div>
-
-    </div>
+    <h3> Comentarios <a class="btn btn-small btn-info" href="<?= root('clientes/comentario?id='.$cliente->id)?>">+</a></h3>
     <ul class="list-group">
-    <?php foreach ($cliente->andamentos() as $andamento): ?>
+    <?php foreach (array_reverse($cliente->comentarios()) as $comentario): ?>
+      <li class="list-group-item"><?=$comentario->descricao?> <br> <small><?=$comentario->usuario()->first()->nome?> às <?=$comentario->data?></small></li> 
+    <?php endforeach; ?>
+    </ul>
+</div>
+<br/>
+<div class="container bg-light p-3">
+    <h3> Andamentos <a class="btn btn-small btn-info" href="<?= root('clientes/andamento?id='.$cliente->id)?>">+</a></h3>
+    <ul class="list-group">
+    <?php foreach (array_reverse($cliente->andamentos()) as $andamento): ?>
       <li class="list-group-item"><?=$andamento->descricao?> <br> <small><?=$andamento->usuario()->first()->nome?> às <?=$andamento->data?></small></li> 
+    <?php endforeach; ?>
+    </ul>
+</div>
+
+<br/>
+<div class="container bg-light p-3">
+    <h3> Tarefas <a class="btn btn-small btn-info" href="<?= root('clientes/tarefa?id='.$cliente->id)?>">+</a></h3>
+    <ul class="list-group">
+    <?php foreach (array_reverse($cliente->registrosTarefa()) as $rTarefa): ?>
+        <?php $tarefa = $rTarefa->tarefa(); if($tarefa===null) continue;?>
+      <li class="list-group-item"> <b><?=$tarefa->usuario()->first()->nome?> até <?=$tarefa->data?></b>: <?=$tarefa->descricao?> 
+        <br><small>
+        <?php if($tarefa->concluida_em): ?>
+            &#9989; <?=$tarefa->concluida_em ?>
+       <?php else: ?>
+            &#9634; Em aberto
+        <?php endif; ?> <br> 
+        <?=$rTarefa->usuario()->first()->nome?> às <?=$rTarefa->data?></small></li> 
     <?php endforeach; ?>
     </ul>
 </div>

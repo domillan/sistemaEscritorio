@@ -99,7 +99,42 @@
         </form>
 </div>
 <?php if($processo->id): ?>
+<br>
+<div class="container bg-light p-3">
+    <h3> Comentarios <a class="btn btn-small btn-info" href="<?= root('processos/comentario?id='.$processo->id)?>">+</a></h3>
+    <ul class="list-group">
+    <?php foreach (array_reverse($processo->comentarios()) as $comentario): ?>
+      <li class="list-group-item"><?=$comentario->descricao?> <br> <small><?=$comentario->usuario()->first()->nome?> às <?=$comentario->data?></small></li> 
+    <?php endforeach; ?>
+    </ul>
+</div>
+<br/>
+<div class="container bg-light p-3">
+    <h3> Andamentos <a class="btn btn-small btn-info" href="<?= root('processos/andamento?id='.$processo->id)?>">+</a></h3>
+    <ul class="list-group">
+    <?php foreach (array_reverse($processo->andamentos()) as $andamento): ?>
+      <li class="list-group-item"><?=$andamento->descricao?> <br> <small><?=$andamento->usuario()->first()->nome?> às <?=$andamento->data?></small></li> 
+    <?php endforeach; ?>
+    </ul>
+</div>
 
+<br/>
+<div class="container bg-light p-3">
+    <h3> Tarefas <a class="btn btn-small btn-info" href="<?= root('processos/tarefa?id='.$processo->id)?>">+</a></h3>
+    <ul class="list-group">
+    <?php foreach (array_reverse($processo->registrosTarefa()) as $rTarefa): ?>
+        <?php $tarefa = $rTarefa->tarefa(); if($tarefa===null) continue;?>
+      <li class="list-group-item"> <b><?=$tarefa->usuario()->first()->nome?> até <?=$tarefa->data?></b>: <?=$tarefa->descricao?> 
+        <br><small>
+        <?php if($tarefa->concluida_em): ?>
+            &#9989; <?=$tarefa->concluida_em ?>
+       <?php else: ?>
+            &#9634; Em aberto
+        <?php endif; ?> <br> 
+        <?=$rTarefa->usuario()->first()->nome?> às <?=$rTarefa->data?></small></li> 
+    <?php endforeach; ?>
+    </ul>
+</div>
 <?php endif; ?>
 
 </main>

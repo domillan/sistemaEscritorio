@@ -91,15 +91,15 @@
               <div style='height:170px;' class="card-body text-center">
                 <!--Category & Title-->
                 			
-                <h5>
+                <h4>
                   <strong>
-                    <a href="<?=root('clientes/dados?id='.$cliente->getPrimary())?>" class="dark-grey-text"><?=$cliente->nome?></a>
+                    <a href="<?=root('clientes/dados?id='.$cliente->getPrimary())?>" class="dark-info-text"><?=$cliente->nome?></a>
                   </strong>
-                </h5>
-
-                <h4 class="font-weight-bold blue-text">
-                  <strong><?=$cliente->cpf?></strong>
                 </h4>
+
+                <h5 class="font-weight-bold dark-text">
+                  <strong><?=$cliente->cpf?></strong>
+                </h5>
 				<?php foreach($cliente->categorias()->all() as $categoria):?>
 				  <a href="<?=root('?categoria='.$categoria->getPrimary())?>">
 					<span class="badge badge-pill text-uppercase danger-color"><?=$categoria->descricao?></span>
