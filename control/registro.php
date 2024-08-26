@@ -9,7 +9,7 @@ $registro->descricao = request('descricao');
 $registro->usuario()->set($_SESSION['user']);
 
 
-$registro->data = date('Y-m-d h:i:s');
+$registro->data = date('Y-m-d H:i:s');
 
 if(request('cliente')){
 	$registro->cliente()->set(Cliente::find(request('cliente')));

@@ -29,7 +29,7 @@ class ManyToOne implements Relation
 
     public function condition($where = 'true')
     {
-        return $this->objLocal::table.'.'.$this->objLocal::primary.' = '.$this->objLocal->getPrimary()." and $where";
+        return $this->objLocal::table.'.'.$this->objLocal::primary.' = '.$this->objLocal->getPrimary()." and ($where)";
     }
 
     public function all()

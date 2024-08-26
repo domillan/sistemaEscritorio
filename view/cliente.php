@@ -12,7 +12,7 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="cpf" class="form-label">CPF</label>
-                <input type="text" class="form-control" id="cpf" name="cpf" value="<?= htmlspecialchars($cliente->cpf) ?>">
+                <input type="text" placeholder="000.000.000-00" class="form-control" id="cpf" name="cpf" value="<?= htmlspecialchars($cliente->cpf) ?>">
             </div>
             <div class="col-md-6">
                 <label for="rg" class="form-label">RG</label>
@@ -53,20 +53,26 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
-                <label for="celular" class="form-label">Celular</label>
-                <input type="text" class="form-control" id="celular" name="celular" value="<?= htmlspecialchars($cliente->celular) ?>">
+                <label for="celular" class="form-label">Celular <a id="zapBtn" class="font-weight-bold text-success"><i class="fab fa-whatsapp"></i></a>
+                </label>
+                <input type="tel" placeholder="(00) 00000-0000" class="form-control fone" id="celular" name="celular" value="<?= htmlspecialchars($cliente->celular) ?>">
             </div>
             <div class="col-md-6">
            
                 <label for="telefone" class="form-label">Telefone</label>
-                <input type="text" class="form-control" id="telefone" name="telefone" value="<?= htmlspecialchars($cliente->telefone) ?>">
+                <input type="tel"  placeholder="(00) 00000-0000" class="form-control fone" id="telefone" name="telefone" value="<?= htmlspecialchars($cliente->telefone) ?>">
             </div>
         </div>
         <hr class="pb-3">
         <div class="row mb-3">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <label for="endereco" class="form-label">Endereço</label>
                 <input type="text" class="form-control" id="endereco" name="endereco" value="<?=htmlspecialchars($cliente->endereco)?>">
+            </div>
+
+            <div class="col-md-2">
+                <label for="num_casa" class="form-label">Número</label>
+                <input type="text" class="form-control" id="num_casa" name="num_casa" value="<?= htmlspecialchars($cliente->num_casa) ?>">
             </div>
 
             <div class="col-md-4">
@@ -75,17 +81,21 @@
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="bairro" class="form-label">Bairro</label>
                 <input type="text" class="form-control" id="bairro" name="bairro" value="<?= htmlspecialchars($cliente->bairro) ?>">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="cidade" class="form-label">Cidade</label>
                 <input type="text" class="form-control" id="cidade" name="cidade" value="<?= htmlspecialchars($cliente->cidade) ?>">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <label for="estado" class="form-label">Estado</label>
                 <input type="text" class="form-control" id="estado" name="estado" value="<?= htmlspecialchars($cliente->estado) ?>">
+            </div>
+            <div class="col-md-4">
+                <label for="complemento" class="form-label">Complemento</label>
+                <input type="text" class="form-control" id="complemento" name="complemento" value="<?= htmlspecialchars($cliente->complemento) ?>">
             </div>
         </div>
         <hr class="pb-3">
@@ -156,6 +166,126 @@
     <?php endforeach; ?>
     </ul>
 </div>
+
+<br/>
+<div class="container bg-light p-3">
+    <h3> Registros </h3>
+    <ul class="list-group">
+    <?php foreach (array_reverse($cliente->registrosInfo()) as $registro): ?>
+      <li class="list-group-item">
+        <?= ($registro->codigo == 10) ? "Criação": "Alteração de $registro->descricao";?> <br>
+        <small><?=$registro->usuario()->first()->nome?> às <?=$registro->data?></small></li> 
+    <?php endforeach; ?>
+    </ul>
+</div>
 <?php endif; ?>
 
 </main>
+
+<script type="text/javascript">
+
+    function isValidCPF(cpf) {
+        if (cpf.length !== 11) return false;
+        // Elimina CPFs inválidos conhecidos
+        if (/^(\d)\1{10}$/.test(cpf)) return false;
+        // Valida 1º dígito
+        let sum = 0;
+        for (let i = 0; i < 9; i++) {
+            sum += (10 - i) * parseInt(cpf.charAt(i));
+        }
+        let remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf.charAt(9))) return false;
+        // Valida 2º dígito
+        sum = 0;
+        for (let i = 0; i < 10; i++) {
+            sum += (11 - i) * parseInt(cpf.charAt(i));
+        }
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf.charAt(10))) return false;
+
+        return true;
+    }
+
+
+    //Quando o campo cep perde o foco.
+    $("#cep").blur(function () {
+        //Nova variável "cep" somente com dígitos.
+        var cep = $(this).val().replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if (validacep.test(cep)) {
+
+                //Consulta o webservice viacep.com.br/
+                $.getJSON("https://viacep.com.br/ws/" + cep + "/json/", function (dados) {
+
+                    if (!("erro" in dados)) {
+                        //Atualiza os campos com os valores da consulta.
+                        $("#endereco").val(dados.logradouro);
+                        $("#bairro").val(dados.bairro);
+                        $("#cidade").val(dados.localidade);
+                        $("#estado").val(dados.uf);
+                        $("#cep").val(dados.cep);
+                        numero.focus();
+                        loc();
+                    } //end if.
+                    else {
+                        //CEP pesquisado não foi encontrado.
+                        alert("CEP não encontrado.");
+                    }
+                });
+            } //end if.
+            else {
+                alert("CEP inválido.");
+            }
+        } //end if.
+    });
+
+    $('input').on('dblclick', function() {
+        // Selecionar o valor do input
+        var value = $(this).val();
+        $(this).select();
+        // Copiar o valor para a área de transferência
+        document.execCommand('copy');
+    });
+
+     $('#zapBtn').on('click', function() {
+        //window.open("whatsapp://send/?phone=55"+celular.value.replace(/[^0-9]|/gi, ""), "_self");
+        window.open("https://wa.me/55"+celular.value.replace(/[^0-9]|/gi, ""), "_blank");
+    });
+
+     $("#cpf").blur(function () {
+        cpfText = cpf.value;
+        cpfText = cpfText.replace(/\D/g, '');
+        if (isValidCPF(cpfText) || cpfText.length == 0) {
+            cpf.classList.remove('border-danger');
+        } else {
+            cpf.classList.add('border-danger');
+        }
+        cpfText = cpfText.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+        cpf.value = cpfText;
+     });
+
+     $(".fone").blur(function () {
+        cel = $(this).val().replace(/\D/g, '');
+        
+        if (cel.length >= 10 || cel.length == 0)
+            $(this).removeClass('border-danger');
+        else 
+            $(this).addClass('border-danger');
+        
+        if(cel.length < 11)
+            cel = cel.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+        else
+            cel = cel.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        $(this).val(cel);
+     });
+
+</script>

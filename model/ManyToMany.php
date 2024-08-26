@@ -35,7 +35,7 @@ class ManyToMany implements Relation
 
     public function condition($where = 'true')
     {
-        return "$this->tabelaRel.$this->foreignKeyLocal = ".$this->objLocal->getPrimary()." and $where";
+        return "$this->tabelaRel.$this->foreignKeyLocal = ".$this->objLocal->getPrimary()." and ($where)";
     }
 
     public function all()

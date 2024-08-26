@@ -3,18 +3,23 @@
 validaLogin(url());
 validaToken();
 
+$CPAGINA = 20;
+
 $categoria = request('categoria');
 $busca = request('busca');
-$inicial = request('inicial');
+$page = request('page');
+if(!$page) $page=1;
 
 $buscaReplaced = preg_replace ( '/[\s]+/m' , ' % ', $busca);
 if($categoria){
 	$cat = CategoriaP::find($categoria);
-	$processos = $cat->processos()->where("processo.assunto like '%$buscaReplaced%' or processo.numero like '%$buscaReplaced%'");
+	$processos = $cat->processos()->select(['where'=>"processo.assunto like '%$buscaReplaced%' or processo.numero like '%$buscaReplaced%'",
+											'orderBy'=>'processo.assunto','limit'=> $CPAGINA, 'offset'=>$CPAGINA*($page-1)]);
 }
 else
 {
-	$processos = Processo::where("processo.assunto like '%$buscaReplaced%' or processo.numero like '%$buscaReplaced%'");
+	$processos = Processo::select(['where'=>"processo.assunto like '%$buscaReplaced%' or processo.numero like '%$buscaReplaced%'",
+											'orderBy'=>'processo.assunto','limit'=> $CPAGINA, 'offset'=>$CPAGINA*($page-1)]);
 }
 
 include("view/topo.php");

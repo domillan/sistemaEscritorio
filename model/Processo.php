@@ -38,6 +38,11 @@ class Processo extends DBClass{
         return $this->registros()->where('codigo = 24');
     }
 
+    public function registrosInfo()
+    {
+        return $this->registros()->where('codigo = 20 or codigo = 21');
+    }
+
     public function nomesClientes()
     {
         $array = [];

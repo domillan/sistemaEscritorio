@@ -1,7 +1,9 @@
   <!--Main layout-->
   <main class='pt-5 mt-5'>
     <div class="container">
-
+          <div class="text-center">
+            <h3>Processos</h3>
+          </div>
       <!--Navbar-->
         <div class="navbar navbar-expand-lg navbar-dark mdb-color lighten mt-5">
 
@@ -62,52 +64,33 @@
 		  
 			<?php endif;?>
 
+<table class="table mx-3 table-striped table-bordered">
+                <tbody>
+                <?php foreach($processos as $processo): ?>
+                    <tr>
+                        <td><a class="blue-text font-weight-bold" href="<?=root('processos/dados?id='.$processo->getPrimary())?>"><?=$processo->numero?></a></td>
+                      </td>
+                        <td><?=$processo->nomesClientes()?></td>
+                        <td><?=$processo->assunto?></td>
+                        <td>
+                          <?php foreach($processo->categorias()->all() as $categ):?>
+                          <a href="<?=root('?categoria='.$categ->getPrimary())?>">
+                          <span class="badge badge-pill text-uppercase danger-color"><?=$categ->descricao?></span>
+                          </a>
+                        <?php endforeach;?>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php if($page > 1):?>
+          <a href='<?=root("processos/lista?categoria=$categoria&busca=$busca&page=".($page-1))?>' class="btn btn-light btn-sm">&#8678;
+          </a>
+        <?php endif;?>
 
-<?php foreach($processos as $processo):?>
-		  <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4">
-
-            <!--Card-->
-            <div class="card">
-
-              <!--Card image-->
-              <div class="view zoom overlay">
-                  <a href="<?=root('processos/dados?id='.$processo->getPrimary())?>">
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-              <!--Card image-->
-
-              <!--Card content-->
-              <div style='height:170px;' class="card-body text-center">
-                <!--Category & Title-->
-                			
-                <h4>
-                  <strong>
-                    <a href="<?=root('processos/dados?id='.$processo->getPrimary())?>" class="dark-info-text"><?=$processo->numero?></a>
-                  </strong>
-                </h4>
-
-                <h5 class="font-weight-bold dark-text">
-                  <strong><?= $processo->nomesClientes()?></strong>
-                </h5>
-                <?=$processo->assunto?>
-				<?php foreach($processo->categorias()->all() as $categoria):?>
-				  <a href="<?=root('processos/lista?categoria='.$categoria->getPrimary())?>">
-					<span class="badge badge-pill text-uppercase danger-color"><?=$categoria->descricao?></span>
-				  </a>
-				<?php endforeach;?>
-              </div>
-              <!--Card content-->
-
-            </div>
-            <!--Card-->
-
-          </div>
-          <!--Grid column-->
-
-	<?php endforeach;?>
-
+        <?php if(sizeof($processos) == $CPAGINA): ?>
+          <a href='<?=root("processos/lista?categoria=$categoria&busca=$busca&page=".($page+1))?>' class="btn btn-light btn-sm">&#8680;
+          </a>
+        <?php endif;?>
 
         </div>
         <!--Grid row-->

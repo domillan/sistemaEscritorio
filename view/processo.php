@@ -135,6 +135,18 @@
     <?php endforeach; ?>
     </ul>
 </div>
+
+<br/>
+<div class="container bg-light p-3">
+    <h3> Registros </h3>
+    <ul class="list-group">
+    <?php foreach (array_reverse($processo->registrosInfo()) as $registro): ?>
+      <li class="list-group-item">
+        <?= ($registro->codigo == 20) ? "Criação": "Alteração de $registro->descricao";?> <br>
+        <small><?=$registro->usuario()->first()->nome?> às <?=$registro->data?></small></li> 
+    <?php endforeach; ?>
+    </ul>
+</div>
 <?php endif; ?>
 
 </main>

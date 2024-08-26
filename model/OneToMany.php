@@ -26,7 +26,7 @@ class OneToMany implements Relation
 
     public function condition($where = 'true')
     {
-        return "$this->foreignKey = ".$this->objLocal->getPrimary()." and $where";
+        return "$this->foreignKey = ".$this->objLocal->getPrimary()." and ($where)";
     }
 
     public function all()
