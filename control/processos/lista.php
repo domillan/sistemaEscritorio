@@ -2,6 +2,7 @@
 
 validaLogin(url());
 validaToken();
+validaAcesso(10);
 
 $CPAGINA = 20;
 

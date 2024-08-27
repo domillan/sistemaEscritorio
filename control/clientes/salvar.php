@@ -2,11 +2,12 @@
 
 validaLogin(url());
 validaToken();
-//validaAcesso();
+validaAcesso(2);
 
 $descricao = '';
 if(request('id')){
 	$c = Cliente::find(request('id'));
+	validaAcesso(4);
 	$codigo = 11;
 	foreach (Cliente::fields as $value) {
 		if(request($value) !=$c->$value)

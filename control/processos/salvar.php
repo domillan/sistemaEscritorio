@@ -2,11 +2,12 @@
 
 validaLogin(url());
 validaToken();
-//validaAcesso();
+validaAcesso(20);
 
 $descricao = '';
 if(request('id')){
 	$p = Processo::find(request('id'));
+	validaAcesso(40);
 	$codigo = 21;
 	foreach (Processo::fields as $value) {
 		if(request($value) !=$p->$value)

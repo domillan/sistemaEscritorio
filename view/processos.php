@@ -2,7 +2,7 @@
   <main class='pt-5 mt-5'>
     <div class="container">
           <div class="text-center">
-            <h3>Processos</h3>
+            <h3>Processos <a class="btn btn-sm btn-info" href="<?=root('processos/novo')?>">+</a></h3>
           </div>
       <!--Navbar-->
         <div class="navbar navbar-expand-lg navbar-dark mdb-color lighten mt-5">

@@ -39,7 +39,7 @@
 
                     <!--Form with header-->
 
-                    <form method="POST" action="<?=root('login')?>">
+                    <form method="POST" action="<?=root('novoToken')?>">
                         <div class="card border-primary rounded-0">
                             <div class="card-header p-0">
                                 <div class="bg-info text-white text-center py-4">
@@ -59,24 +59,12 @@
                                         value="<?=(isset($email))?$email:"";?>" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="input-group mb-2">
-									<label for='senha'>
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i class="fa fa-key text-info"></i>&nbsp;Senha </div>
-                                        </div>
-									</label>
-                                        <input class="form-control" type='password' name='senha' id='senha' placeholder="Sua senha" required><br>
-                                    </div>
-                                <p><a class='mb-5 text-start' href="<?=root('esqueciMinhaSenha')?>">Esqueci minha senha</a></p>
-                                </div>
-
                                 <div class="text-center">
                                     <input type="submit" name="logar" value="Enviar" class="btn btn-info btn-block rounded-0 py-2">
                                 </div>
                             </div>
-							<?php if($mensagem!=null):?>
-							<div class="alert alert-danger ml-2 mr-2" role="alert">
+							<?php if(isset($mensagem)):?>
+							<div class="alert alert-warning ml-2 mr-2" role="alert">
 							  <?php echo $mensagem; ?>
 							</div>
 							<?php endif;?>

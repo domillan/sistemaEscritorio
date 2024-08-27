@@ -28,7 +28,7 @@
 	</div>
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
-                <span class="display-1 d-block">Acesso negado</span>
+                <span class="display-3 d-block">Acesso negado</span>
                 <div class="mb-4 lead">Você não acesso a essa página.</div>
                 <a href="<?=root()?>" class="btn btn-link">Voltar para o site</a>
             </div>

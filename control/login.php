@@ -16,9 +16,9 @@ function logado()
 if(!isset($_SESSION['user'])){
 	$mensagem = null;	
 	if (isset($_POST['logar'])){
-		$senha = $_REQUEST['senha'];
-		$email = $_REQUEST['email'];
-		if(filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)){
+		$senha = request('senha');
+		$email = request('email');
+		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			$user = Usuario::first("email='$email'");
 			if($user == null){
 				$mensagem = "E-mail não cadastrado.";
@@ -30,7 +30,6 @@ if(!isset($_SESSION['user'])){
 					$t->save();
 					$_SESSION['user'] = $user;
 					$_SESSION['token'] = $t->token;
-
 					logado();				
 				}
 				else {

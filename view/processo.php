@@ -148,5 +148,43 @@
     </ul>
 </div>
 <?php endif; ?>
+    <style type="text/css">
+        /* Animação de piscar */
+    @keyframes piscar {
+        0% { border-color: #0000ff; } /* Cor inicial */
+        50% { border-color: #ffffff; } /* Cor durante o piscar */
+        100% { border-color: #0000ff; } /* Cor final */
+    }
 
+    /* Classe que aplica a animação */
+    .piscar {
+        animation: piscar 1s ease-out;
+    }
+    </style>
+    <script type="text/javascript">
+        function piscar($elem){
+            // Adiciona a classe para iniciar a animação
+            $elem.addClass('piscar');
+            // Remove a classe após a animação (1 segundo)
+            setTimeout(function() {
+                $elem.removeClass('piscar');
+            }, 1000);
+        }
+
+    <?php if($processo->id && !$_SESSION['user']->temAcesso(40)):?>
+            $('input').prop('readonly', true);
+            $('textarea').prop('readonly', true);
+            $("button[type='submit']").hide();
+    <?php endif; ?>
+
+        $('input').on('dblclick', function() {
+            // Confere valor do input
+            if(!$(this).val()) return;
+            // Selecionar o input
+            $(this).select();
+            // Copiar o valor para a área de transferência
+            document.execCommand('copy');
+            piscar($(this));
+    })
+   </script>
 </main>

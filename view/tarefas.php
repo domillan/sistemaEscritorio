@@ -27,13 +27,25 @@
     <ul class="list-group">
     <?php foreach ($tarefas as $tarefa): ?>
       <li class="list-group-item">
+      <div class="row">
+
+        <?php if($tarefa->concluida_em): ?>
+         <a href="<?=root("tarefas/conclui?id=$tarefa->id&data=$data&value=0")?>">
+            <h4 class="px-2"><i class="fas fa-check-square"></i> </h4></a>
+        <?php else: ?>
+        <a href="<?=root("tarefas/conclui?id=$tarefa->id&data=$data&value=1")?>">
+            <h4 class="px-2"><i class="fas fa-square"></i> </h4></a>
+        <?php endif; ?>
+        
         <?php if($tarefa->cliente()): ?>
             <a href="<?=root('clientes/dados?id='.$tarefa->cliente()->id)?>"> <?=$tarefa->cliente()->nome ?></a>
-        <?php endif; ?>
-        <?php if($tarefa->processo()): ?>
+        <?php elseif($tarefa->processo()): ?>
             <a href="<?=root('processos/dados?id='.$tarefa->processo()->id)?>"> <?=$tarefa->processo()->numero ?> </a>
-        <?php endif; ?><br>
+        <?php endif; ?></div>
         <?=$tarefa->descricao?>
+        <?php if($tarefa->concluida_em): ?><br>
+         <small class="text-secondary">Concluída em <?=$tarefa->concluida_em?></small>
+         <?php endif; ?>
       </li> 
     <?php endforeach; ?>
     </ul>
@@ -84,7 +96,9 @@
     </style>
     
     <script>
-        <?php if(request('data')):?>
+        diasTar = <?=json_encode($dias)?>;
+
+                <?php if(request('data')):?>
             const today = new Date("<?=request('data')?>");
         <?php else:?>
             const today = new Date();
@@ -127,6 +141,11 @@
                 // Check if it's today
                 if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
                     link.classList.add("today");
+                }
+
+                formattedDate = `${year}-${String(month+1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                if (diasTar.includes(formattedDate)) {
+                    cell.classList.add("highlight");
                 }
 
                 cell.appendChild(link);

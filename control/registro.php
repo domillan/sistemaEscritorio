@@ -14,10 +14,12 @@ $registro->data = date('Y-m-d H:i:s');
 if(request('cliente')){
 	$registro->cliente()->set(Cliente::find(request('cliente')));
 	$caminho = root('clientes/dados?id='.request('cliente'));
+	validaAcesso(3);
 }
 elseif(request('processo')){
 	$registro->processo()->set(Processo::find(request('processo')));
 	$caminho = root('processos/dados?id='.request('processo'));
+	validaAcesso(30);
 }
 else
 {

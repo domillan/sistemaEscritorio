@@ -2,6 +2,7 @@
 
 validaLogin(url());
 validaToken();
+validaAcesso(20);
 
 $processo = Processo::new();
 if(request('clientes'))

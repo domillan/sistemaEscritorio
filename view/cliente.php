@@ -122,6 +122,7 @@
 </div>
 <?php if($cliente->id): ?>
 <br>
+<?php if($_SESSION['user']->temAcesso(10)): ?>
 <div class="container bg-light p-3">
     <h3> Processos <a href="<?=root("processos/novo?clientes=[$cliente->id]")?>" class="btn btn-sn btn-info">+</a></h3>
     <ul class="list-group">
@@ -131,6 +132,7 @@
     </ul>
 </div>
 <br>
+<?php endif; ?>
 <div class="container bg-light p-3">
     <h3> Comentarios <a class="btn btn-small btn-info" href="<?= root('clientes/comentario?id='.$cliente->id)?>">+</a></h3>
     <ul class="list-group">
@@ -181,33 +183,26 @@
 <?php endif; ?>
 
 </main>
+<style type="text/css">
 
-<script type="text/javascript">
-
-    function isValidCPF(cpf) {
-        if (cpf.length !== 11) return false;
-        // Elimina CPFs inválidos conhecidos
-        if (/^(\d)\1{10}$/.test(cpf)) return false;
-        // Valida 1º dígito
-        let sum = 0;
-        for (let i = 0; i < 9; i++) {
-            sum += (10 - i) * parseInt(cpf.charAt(i));
-        }
-        let remainder = (sum * 10) % 11;
-        if (remainder === 10 || remainder === 11) remainder = 0;
-        if (remainder !== parseInt(cpf.charAt(9))) return false;
-        // Valida 2º dígito
-        sum = 0;
-        for (let i = 0; i < 10; i++) {
-            sum += (11 - i) * parseInt(cpf.charAt(i));
-        }
-        remainder = (sum * 10) % 11;
-        if (remainder === 10 || remainder === 11) remainder = 0;
-        if (remainder !== parseInt(cpf.charAt(10))) return false;
-
-        return true;
+    @keyframes piscar {
+        0% { border-color: #0000ff; } /* Cor inicial */
+        50% { border-color: #ffffff; } /* Cor durante o piscar */
+        100% { border-color: #0000ff; } /* Cor final */
     }
 
+    /* Classe que aplica a animação */
+    .piscar {
+        animation: piscar 1s ease-out;
+    }
+</style>
+<script type="text/javascript">
+
+    <?php if($cliente->id && !$_SESSION['user']->temAcesso(4)):?>
+    $('input').prop('readonly', true);
+    $('textarea').prop('readonly', true);
+    $("button[type='submit']").hide();
+    <?php endif; ?>
 
     //Quando o campo cep perde o foco.
     $("#cep").blur(function () {
@@ -248,18 +243,55 @@
         } //end if.
     });
 
+    function piscar($elem){
+        // Adiciona a classe para iniciar a animação
+        $elem.addClass('piscar');
+        // Remove a classe após a animação (1 segundo)
+        setTimeout(function() {
+            $elem.removeClass('piscar');
+        }, 1000);
+    }
+
     $('input').on('dblclick', function() {
-        // Selecionar o valor do input
-        var value = $(this).val();
+        // Confere valor do input
+        if(!$(this).val()) return;
+        // Selecionar o input
         $(this).select();
         // Copiar o valor para a área de transferência
         document.execCommand('copy');
+        //animação
+        piscar($(this));
     });
 
      $('#zapBtn').on('click', function() {
         //window.open("whatsapp://send/?phone=55"+celular.value.replace(/[^0-9]|/gi, ""), "_self");
         window.open("https://wa.me/55"+celular.value.replace(/[^0-9]|/gi, ""), "_blank");
     });
+
+   function isValidCPF(cpf) {
+        if (cpf.length !== 11) return false;
+        // Elimina CPFs inválidos conhecidos
+        if (/^(\d)\1{10}$/.test(cpf)) return false;
+        // Valida 1º dígito
+        let sum = 0;
+        for (let i = 0; i < 9; i++) {
+            sum += (10 - i) * parseInt(cpf.charAt(i));
+        }
+        let remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf.charAt(9))) return false;
+        // Valida 2º dígito
+        sum = 0;
+        for (let i = 0; i < 10; i++) {
+            sum += (11 - i) * parseInt(cpf.charAt(i));
+        }
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf.charAt(10))) return false;
+
+        return true;
+    }
+
 
      $("#cpf").blur(function () {
         cpfText = cpf.value;

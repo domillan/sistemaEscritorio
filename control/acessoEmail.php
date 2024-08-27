@@ -12,8 +12,7 @@ if($t)
 		$user = $t->usuario()->first();
 		$_SESSION['user'] = $user;
 		$_SESSION['token'] = $t->token;
-		//redirect(root('novaSenha'));
-		redirect(root('clientes/lista'));
+		redirect(root('conta'));
 	}
 }
 	redirect(root('login'));

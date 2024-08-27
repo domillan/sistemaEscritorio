@@ -1,11 +1,9 @@
 <?php
-
 validaLogin(url());
 validaToken();
-validaAcesso(30);
+$user = $_SESSION['user'];
 
-$processo = Processo::find(request('id'));
 include("view/topo.php");
-include("view/novaTarefa.php");
+include("view/user.php");
 include("view/rodape.php");
 ?>

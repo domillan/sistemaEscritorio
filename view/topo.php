@@ -91,7 +91,7 @@
         Tarefas
       </a>
     </div>
-
+  <?php if($_SESSION['user']->temAcesso(1)): ?>
     <div class="btn-group">
       <a class="btn btn-info btn-sm dropdown-toggle" href="<?=root('clientes/lista')?>" aria-expanded="false">
         Clientes
@@ -106,7 +106,8 @@
         </a>
       </div>
     </div>
-
+  <?php endif;?>
+    <?php if($_SESSION['user']->temAcesso(10)): ?>
     <div class="btn-group">
       <a class="btn btn-info btn-sm dropdown-toggle" href="<?=root('processos/lista')?>" aria-expanded="false">
         Processos
@@ -121,21 +122,25 @@
         </a>
       </div>
     </div>
-
+  <?php endif;?>
+      <?php if($_SESSION['user']->temAcesso(5) || $_SESSION['user']->temAcesso(50)): ?>
         <div class="btn-group">
       <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Categorias
       </button>
       <div class="dropdown-menu">
+        <?php if($_SESSION['user']->temAcesso(5)): ?>
          <a class="nav-link" href="<?=root('clientes/lista')?>">
         <strong class="text-primary">Clientes</strong>
         </a>
+        <?php endif; if($_SESSION['user']->temAcesso(50)): ?>
         <div class="dropdown-divider"></div>
         <a class="nav-link" href="<?=root('clientes/novo')?>">
         <strong class="text-primary">Processos</strong>
-        </a>
+        </a><?php endif;?>
       </div>
-    </div>
+    </div><?php endif;?>
+
   </div>
 
 
@@ -147,6 +152,7 @@
 
 
 		<ul class="navbar-nav nav-flex-icons float-right">
+    <?php if($_SESSION['user']->temAcesso(99)): ?>
           <li class="nav-item">
             <a href = '<?= root('404')?>' class="nav-link border border-light rounded waves-effect">
 			&nbsp;
@@ -154,9 +160,9 @@
               <span class="clearfix d-none d-sm-inline-block"> Ajustes </span>
             &nbsp;
 			</a>
-          </li>
+          </li><?php endif;?>
           <li class="nav-item">
-            <a href='<?= root('logout')?>' class="nav-link border border-light rounded waves-effect">
+            <a href='<?= root('conta')?>' class="nav-link border border-light rounded waves-effect">
             &nbsp;
 			  <i class="fas fa-user"></i>
 			  <span class="clearfix d-none d-sm-inline-block"> Conta </span> 

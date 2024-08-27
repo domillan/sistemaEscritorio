@@ -90,9 +90,11 @@ function validaToken()
 	}
 }
 
-function validaAcesso($codigo = 0)
+function validaAcesso($acesso = 0)
 {
-	if(Usuario::find($_SESSION['user'])->acesso <= $codigo)
+	$_SESSION['user']->refresh();
+	
+	if($_SESSION['user']->temAcesso($acesso))
 	{
 		return true;
 	}
@@ -106,7 +108,7 @@ function validaAcesso($codigo = 0)
 
 function email($to, $subject, $message, $from)
 {
-	mail($to, $subject, $message, "From: $from");
+	return mail($to, $subject, $message, "From: $from");
 }
 
 function validaCPF($cpf) {
@@ -142,8 +144,7 @@ $GLOBALS['APP_NAME'] = 'Sistema EN';
 $GLOBALS['PATH_INFO'] = pathinfo($_SERVER['SCRIPT_FILENAME']);
 $GLOBALS['ROOT'] = str_replace ( '/'.$GLOBALS['PATH_INFO']['basename'] , '' , $_SERVER['SCRIPT_NAME']);
 
-//Conexão com o banco do 000
+//Conexão com o banco
 DB::setConnection('localhost', 'root', '', 'sistema');
-
 include_once(path());
 ?>

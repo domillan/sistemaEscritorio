@@ -2,7 +2,7 @@
   <main class='pt-5 mt-5'>
     <div class="container">
       <div class="text-center">
-            <h3>Clientes</h3>
+            <h3>Clientes <a class="btn btn-sm btn-info" href="<?=root('clientes/novo')?>">+</a></h3>
           </div>
       <!--Navbar-->
         <div class="navbar navbar-expand-lg navbar-dark mdb-color lighten mt-5">
