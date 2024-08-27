@@ -87,7 +87,7 @@ CREATE TABLE `tarefa` (
   `usuario_id` int,
   `registro_id` int,
   `concluida_em` datetime,
-  `data` datetime NOT NULL DEFAULT NOW(),
+  `data` date NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`),
   FOREIGN KEY (`registro_id`) REFERENCES registro(`id`)
 );
